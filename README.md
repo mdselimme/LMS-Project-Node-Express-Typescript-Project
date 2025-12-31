@@ -17,6 +17,11 @@
 
 git clone git@github.com:mdselimme/LMS-Project-Node-Express-Typescript-Project.git
 
+cd LMS-Project-Node-Express-Typescript-Project
+
+# install
+npm install
+
 ```
 
 **Set up .env file with requirement variables**
