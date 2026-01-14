@@ -4,37 +4,40 @@ import { User, } from './user.model'
 import { envVars } from '../../../config/envVariable.config'
 import ApiError from "../../utils/ApiError"
 
-const createUser = async (payload: any) => {
+export const createUser = async (payload: any) => {
 
-
-    // Check if email already exists
-    const isUserExists = await User.findOne({ email: payload.email })
-    if (isUserExists) {
-      throw new ApiError(400, 'User already exists. Please login.')
-    }
-
-    // Hash password
-    const hashedPassword = await bcrypt.hash(
-      payload.password,
-      Number(envVars.bcrypt_salt_rounds)
-    )
-
-    // Create AuthUser (base)
-    const [authUser] = await User.create(
-      [
-        {
-          name: payload.name,
-          userName: payload.userName,
-          email: payload.email,
-          password: hashedPassword,
-          role: 'user',
-          status: 'active'
-        },
-      ]
-    )
-
-    return authUser
+  // Check if email already exists
+  const isUserExists = await User.findOne({ email: payload.email });
+  if (isUserExists) {
+    throw new ApiError(400, 'User already exists. Please login.');
   }
+
+  // Hash password
+  const saltRounds = Number(envVars.bcrypt_salt_rounds);
+
+  if (Number.isNaN(saltRounds)) {
+    throw new Error('Invalid BCRYPT_SALT_ROUNDS value');
+  }
+
+  const hashedPassword = await bcrypt.hash(
+    payload.password,
+    saltRounds,
+  );
+
+  // Create user
+  const [authUser] = await User.create([
+    {
+      name: payload.name,
+      userName: payload.userName,
+      email: payload.email,
+      password: hashedPassword,
+      role: 'user',
+      status: 'active',
+    },
+  ]);
+
+  return authUser;
+};
 
 
 

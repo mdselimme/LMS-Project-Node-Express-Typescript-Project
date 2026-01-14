@@ -1,18 +1,31 @@
-import { NextFunction, Request, Response } from "express";
-import { ZodObject } from "zod";
+import { NextFunction, Request, Response } from 'express';
+import { ZodObject } from 'zod';
 
+const validateZodSchema =
+  (zodSchema: ZodObject) =>
+  async (req: Request, _res: Response, next: NextFunction) => {
+    try {
+      // Handle multipart/form-data JSON string
+      if (req.body?.data) {
+        req.body = JSON.parse(req.body.data);
+      }
 
-const validateZodSchema = (zodSchema: ZodObject) =>
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            if (req.body.data) {
-                req.body = JSON.parse(req.body.data);
-            }
-            req.body = await zodSchema.parseAsync({body:req.body});
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
+      // Validate
+      const parsed = await zodSchema.parseAsync({
+        body: req.body,
+        cookies: req.cookies,
+        params: req.params,
+        query: req.query,
+      });
+
+      // ✅ Flatten back to Express shape
+      if (parsed.body) req.body = parsed.body;
+      if (parsed.cookies) req.cookies = parsed.cookies;
+
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };
 
 export default validateZodSchema;
