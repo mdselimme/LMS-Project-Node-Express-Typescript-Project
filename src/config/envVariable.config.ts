@@ -5,7 +5,7 @@ interface IEnvVariables {
     PORT: string;
     NODE_ENV: 'development' | 'production' | 'test';
     DB_URL: string;
-    CLIENT_SITE_URL: string;
+    FROENT_END_LINK: string;
 };
 
 // Load and validate environment variables
@@ -13,7 +13,7 @@ const loadEnvVariables = (): IEnvVariables => {
 
     const requiredEnvVars = [
         'PORT', 'NODE_ENV', 'DB_URL',
-        "CLIENT_SITE_URL",
+        "FROENT_END_LINK",
     ];
 
     requiredEnvVars.forEach((varName) => {
@@ -26,7 +26,7 @@ const loadEnvVariables = (): IEnvVariables => {
         PORT: process.env.PORT as string,
         NODE_ENV: process.env.NODE_ENV as 'development' | 'production' | 'test',
         DB_URL: process.env.DB_URL as string,
-        CLIENT_SITE_URL: process.env.CLIENT_SITE_URL as string,
+        FROENT_END_LINK: process.env.FROENT_END_LINK as string,
     };
 };
 

@@ -11,7 +11,7 @@ const app: Application = express();
 
 // Middleware
 app.use(cors({
-    origin: [envVars.CLIENT_SITE_URL, 'http://localhost:3000'],
+    origin: [envVars.FROENT_END_LINK, 'http://localhost:3000'],
     credentials: true
 }));
 app.use(bodyParser.json());
