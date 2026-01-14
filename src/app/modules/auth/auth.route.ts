@@ -1,37 +1,35 @@
 import express from 'express'
-import auth from '../../middlewares/auth'
-import validateRequest from '../../middlewares/validateRequest'
 import { AuthControllers } from './auth.controller'
 import { AuthValidations } from './auth.validation'
-import { USER_ROLE } from '../user/user.constant'
+import validateZodSchema from '../../middleware/validateZodSchemaRequest'
 
 
 const router = express.Router()
 
-router.post('/login', validateRequest(AuthValidations.loginValidationSchema), AuthControllers.loginUser)
+router.post('/login', validateZodSchema(AuthValidations.loginValidationSchema), AuthControllers.loginUser)
 
 router.post(
   '/change-password',
-  auth(USER_ROLE.admin, USER_ROLE.user),
-  validateRequest(AuthValidations.changePasswordValidationSchema),
+// TODO add auth here
+  validateZodSchema(AuthValidations.changePasswordValidationSchema),
   AuthControllers.changePassword
 )
 
 router.post(
   '/refresh-token',
-  validateRequest(AuthValidations.refreshTokenValidationSchema),
+  validateZodSchema(AuthValidations.refreshTokenValidationSchema),
   AuthControllers.refreshToken
 )
 
 router.post(
   '/forget-password',
-  validateRequest(AuthValidations.forgetPasswordValidationSchema),
+  validateZodSchema(AuthValidations.forgetPasswordValidationSchema),
   AuthControllers.forgetPassword
 )
 
 router.post(
   '/reset-password',
-  validateRequest(AuthValidations.resetPasswordValidationSchema),
+  validateZodSchema(AuthValidations.resetPasswordValidationSchema),
   AuthControllers.resetPassword
 )
 

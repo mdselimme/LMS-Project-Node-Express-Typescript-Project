@@ -1,8 +1,8 @@
 import httpStatus from 'http-status'
-import AppError from '../../errors/AppError'
 import catchAsync from '../../utils/catchAsync'
-import sendResponse from '../../utils/sendResponse'
 import { AuthServices } from './auth.service'
+import ApiError from '../../utils/ApiError'
+import sendResponse from '../../utils/sendResponse'
 
 
 const loginUser = catchAsync(async (req, res) => {
@@ -63,7 +63,7 @@ const resetPassword = catchAsync(async (req, res) => {
   const token = req.headers.authorization
 
   if (!token) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Something went wrong !')
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Something went wrong !')
   }
 
   const result = await AuthServices.resetPassword(req.body, token)
