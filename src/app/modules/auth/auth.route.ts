@@ -9,10 +9,10 @@ const router = express.Router()
 router.post('/login', validateZodSchema(AuthValidations.loginValidationSchema), AuthControllers.loginUser)
 
 router.post(
-  '/change-password',
+  '/reset-change-password',
 // TODO add auth here
   validateZodSchema(AuthValidations.changePasswordValidationSchema),
-  AuthControllers.changePassword
+  AuthControllers.resetChangePassword
 )
 
 router.post(

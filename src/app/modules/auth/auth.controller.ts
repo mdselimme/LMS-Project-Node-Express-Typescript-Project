@@ -24,16 +24,6 @@ const loginUser = catchAsync(async (req, res) => {
   })
 })
 
-const changePassword = catchAsync(async (req, res) => {
-  const { ...passwordData } = req.body
-  const result = await AuthServices.changePassword(req.user, passwordData)
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Password is updated successfully!',
-    data: result
-  })
-})
 
 const refreshToken = catchAsync(async (req, res) => {
   const { refreshToken } = req.cookies
@@ -49,36 +39,80 @@ const refreshToken = catchAsync(async (req, res) => {
 
 
 const forgetPassword = catchAsync(async (req, res) => {
-  const userEmail = req.body.email
-  const result = await AuthServices.forgetPassword(userEmail)
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Reset link is generated successfully!',
-    data: result
-  })
-})
+  const { email } = req.body
 
-const resetPassword = catchAsync(async (req, res) => {
-  const token = req.headers.authorization
-
-  if (!token) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Something went wrong !')
+  if (!email) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email is required')
   }
 
-  const result = await AuthServices.resetPassword(req.body, token)
+  const result = await AuthServices.forgetPassword(email)
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Password reset successfully!',
+    message: 'OTP has been successfully sent to your email.',
     data: result
   })
 })
 
+
+
+const resetPassword = catchAsync(async (req, res) => {
+  const { token, otp } = req.body
+
+  if (!token || !otp) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Token and OTP are required'
+    )
+  }
+
+  const result = await AuthServices.resetPassword(token, otp)
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'OTP confirmed successfully!',
+    data: result
+  })
+})
+
+/**
+ * RESET PASSWORD (FINAL STEP)
+ */
+const resetChangePassword = catchAsync(async (req, res) => {
+  const { token, newPassword } = req.body
+
+  if (!token) {
+    throw new ApiError(
+      httpStatus.FORBIDDEN,
+      'You are not authorized!'
+    )
+  }
+
+  if (!newPassword) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'New password is required'
+    )
+  }
+
+  const result = await AuthServices.resetChangePassword(
+    token,
+    newPassword
+  )
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Password changed successfully. Please login.',
+    data: result
+  })
+})
 export const AuthControllers = {
   loginUser,
-  changePassword,
   refreshToken,
   forgetPassword,
-  resetPassword
+  resetPassword,
+  resetChangePassword
 }

@@ -10,6 +10,7 @@ interface IEnvVariables {
   bcrypt_salt_rounds: string;
 
   jwt_access_secret: string;
+  jwt_reset_password_access: string;
   jwt_access_expires_in: string;
   jwt_refresh_secret: string;
   jwt_refresh_expires_in: string;
@@ -43,6 +44,7 @@ const loadEnvVariables = (): IEnvVariables => {
 
     'PROVIDER_EMAIL',
     'PROVIDER_EMAIL_APP_PASSWORD',
+    'JWT_Reset_Password_Access'
   ];
 
   requiredEnvVars.forEach((varName) => {
@@ -62,6 +64,7 @@ const loadEnvVariables = (): IEnvVariables => {
     bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS as string,
 
     jwt_access_secret: process.env.JWT_ACCESS_SECRET as string,
+    jwt_reset_password_access: process.env.JWT_Reset_Password_Access as string,
     jwt_access_expires_in: process.env.JWT_ACCESS_EXPIRES_IN as string,
     jwt_refresh_secret: process.env.JWT_REFRESH_SECRET as string,
     jwt_refresh_expires_in: process.env.JWT_REFRESH_EXPIRES_IN as string,
