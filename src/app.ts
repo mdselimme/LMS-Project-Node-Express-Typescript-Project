@@ -4,6 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import router from './app/routes';
 import { globalErrorHandler } from './app/middleware/globalErrorHandlers';
+import {sanitizeMiddleware} from "./app/middleware/sanitizeMiddleware";
 import notFoundRoute from './app/middleware/notFoundRoute';
 import { envVars } from './config/envVariable.config';
 
@@ -17,11 +18,12 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(sanitizeMiddleware);
 app.use(cookieParser());
 
 
 // default router after server is running
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => {
     res.send({
         version: '1.0.6',
         message: 'Welcome to the Learning Management Backend Server is Running!',

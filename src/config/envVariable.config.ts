@@ -6,7 +6,7 @@ interface IEnvVariables {
     NODE_ENV: 'development' | 'production' | 'test';
     DB_URL: string;
     CLIENT_SITE_URL: string;
-};
+}
 
 // Load and validate environment variables
 const loadEnvVariables = (): IEnvVariables => {
