@@ -6,6 +6,7 @@ interface IEnvVariables {
     NODE_ENV: 'development' | 'production' | 'test';
     DB_URL: string;
     CLIENT_SITE_URL: string;
+    BCRYPT_SALT_ROUNDS: string;
 }
 
 // Load and validate environment variables
@@ -27,6 +28,7 @@ const loadEnvVariables = (): IEnvVariables => {
         NODE_ENV: process.env.NODE_ENV as 'development' | 'production' | 'test',
         DB_URL: process.env.DB_URL as string,
         CLIENT_SITE_URL: process.env.CLIENT_SITE_URL as string,
+        BCRYPT_SALT_ROUNDS: process.env.BCRYPT_SALT_ROUNDS as string,
     };
 };
 
