@@ -28,7 +28,7 @@ const loadEnvVariables = (): IEnvVariables => {
     'PORT',
     'NODE_ENV',
     'DB_URL',
-    'FROENT_END_LINK',
+    'FRONT_END_LINK',
 
     'BCRYPT_SALT_ROUNDS',
 
