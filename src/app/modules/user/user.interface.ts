@@ -7,11 +7,8 @@ export interface TUser {
   email: string
   profileImg?: string
   password: string
-  passwordChangedAt?: Date
   role:  'admin' |"user" |"superAdmin"
   status: 'active' | 'blocked' | "pending"
-  isDeleted: boolean
-  isEmailVerified:boolean,
   userName:string
 }
 

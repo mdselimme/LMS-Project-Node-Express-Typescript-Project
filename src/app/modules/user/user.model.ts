@@ -43,22 +43,11 @@ const UserSchema = new Schema<TUser, UserModel>(
       enum: UserStatus,
       required: [true, 'status is required.']
     },
-
-    passwordChangedAt: {
-      type: Date
-    },
-
-    isEmailVerified: {
-      type: Boolean,
-      default: false
-    },
-    isDeleted: {
-      type: Boolean,
-      default: false
-    }
+   
   },
   {
-    timestamps: true
+    timestamps: true,
+    versionKey: false
   }
 )
 

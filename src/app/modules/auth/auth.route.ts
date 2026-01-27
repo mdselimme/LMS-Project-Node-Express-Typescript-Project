@@ -9,28 +9,24 @@ const router = express.Router()
 router.post('/login', validateZodSchema(AuthValidations.loginValidationSchema), AuthControllers.loginUser)
 
 router.post(
-  '/change-password',
-// TODO add auth here
-  validateZodSchema(AuthValidations.changePasswordValidationSchema),
-  AuthControllers.changePassword
+  '/forgot-password',
+  validateZodSchema(AuthValidations.forgotPasswordSchema),
+  AuthControllers.forgotPassword
 )
 
 router.post(
-  '/refresh-token',
-  validateZodSchema(AuthValidations.refreshTokenValidationSchema),
-  AuthControllers.refreshToken
-)
-
-router.post(
-  '/forget-password',
-  validateZodSchema(AuthValidations.forgetPasswordValidationSchema),
-  AuthControllers.forgetPassword
+  '/verify-otp',
+  validateZodSchema(AuthValidations.verifyForgotOtpSchema),
+  AuthControllers.verifyForgotOtp
 )
 
 router.post(
   '/reset-password',
-  validateZodSchema(AuthValidations.resetPasswordValidationSchema),
+  validateZodSchema(AuthValidations.resetPasswordSchema),
   AuthControllers.resetPassword
 )
+
+
+
 
 export const AuthRoutes = router

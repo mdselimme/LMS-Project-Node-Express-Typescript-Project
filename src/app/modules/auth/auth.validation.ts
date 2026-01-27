@@ -9,52 +9,30 @@ const loginValidationSchema = z.object({
   })
 })
 
-const changePasswordValidationSchema = z.object({
+const forgotPasswordSchema = z.object({
   body: z.object({
-    oldPassword: z.string({
-      error: 'Old password is required'
-    }),
-    newPassword: z
-      .string({ error: 'Password is required' })
-      .min(6, { message: 'Password must be at least 6 characters long.' })
+    email: z.string().email()
   })
 })
 
-const refreshTokenValidationSchema = z.object({
-  cookies: z.object({
-    refreshToken: z.string({
-      error: 'Refresh token is required!'
-    })
+const verifyForgotOtpSchema = z.object({
+  body: z.object({
+    email: z.string().email(),
+    otp: z.string().length(6)
   })
 })
 
-const forgetPasswordValidationSchema = z.object({
+const resetPasswordSchema = z.object({
   body: z.object({
-    email: z
-      .string({
-        error: 'Email is required!'
-      })
-      .email({ message: 'Invalid email format.' })
+    email: z.string().email(),
+    newPassword: z.string().min(6)
   })
 })
 
-const resetPasswordValidationSchema = z.object({
-  body: z.object({
-    id: z.string({
-      error: 'User id is required!'
-    }),
-    newPassword: z
-      .string({
-        error: 'User password is required!'
-      })
-      .min(6, { message: 'Password must be at least 6 characters long.' })
-  })
-})
 
 export const AuthValidations = {
   loginValidationSchema,
-  changePasswordValidationSchema,
-  refreshTokenValidationSchema,
-  forgetPasswordValidationSchema,
-  resetPasswordValidationSchema
+  forgotPasswordSchema,
+  verifyForgotOtpSchema,
+  resetPasswordSchema
 }

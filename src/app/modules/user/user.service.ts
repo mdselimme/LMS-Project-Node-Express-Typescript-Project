@@ -31,6 +31,7 @@ export const createUser = async (payload: any) => {
       userName: payload.userName,
       email: payload.email,
       password: hashedPassword,
+      profileImg: payload.profileImg,
       role: 'user',
       status: 'active',
     },
